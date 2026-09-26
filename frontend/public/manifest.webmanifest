@@ -1,0 +1,22 @@
+{
+  "name": "EVoyage AI — Intelligent EV Routing & Charging",
+  "short_name": "EVoyage AI",
+  "description": "Unified EV route planning and charging coordination with dynamic real-time re-planning and multi-EV corridor load balancing.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#0F172A",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

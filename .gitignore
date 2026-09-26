@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+out/
+
+# Python / Backend
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+*.env
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

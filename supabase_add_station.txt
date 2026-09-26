@@ -1,0 +1,95 @@
+================================================================================
+          SUPABASE EV CHARGING STATIONS - DATA INSERTION GUIDE & TEMPLATE
+================================================================================
+
+TABLE NAME: ev_charging_stations
+
+--------------------------------------------------------------------------------
+1. TABLE COLUMNS & DATA TYPES (SCHEMA)
+--------------------------------------------------------------------------------
+Column Name          Data Type        Description & Example Value
+-------------------  ---------------  ------------------------------------------
+id                   TEXT (Primary)   Unique Station ID (e.g. 'st-indore-101')
+name                 TEXT             Station Name (e.g. 'Tata Power Fast DC Hub')
+location             TEXT             Full Address / Highway location
+lat                  FLOAT8 / DOUBLE  Latitude decimal (e.g. 22.756000)
+lng                  FLOAT8 / DOUBLE  Longitude decimal (e.g. 75.879000)
+corridor             TEXT             Corridor Key ('INDORE_UJJAIN', 'INDORE_MAHESHWAR', 'GWALIOR_JAIPUR')
+power_output_kw      NUMERIC / FLOAT  Power in kW (e.g. 60.0, 120.0, 150.0)
+total_connectors     INTEGER          Total charging ports (e.g. 4, 6, 8)
+available_connectors INTEGER          Free charging ports available now (e.g. 3)
+status               TEXT             'available', 'busy', or 'offline'
+tariff_per_kwh       NUMERIC / FLOAT  Price in INR per kWh (e.g. 18.50)
+estimated_wait_mins  INTEGER          Estimated queue wait in minutes (e.g. 0, 5)
+connector_types      TEXT[] (Array)   ARRAY['CCS2'] or ARRAY['CCS2', 'Type2']
+amenities            TEXT[] (Array)   ARRAY['Restroom', 'Cafe', 'WiFi', 'Plaza']
+
+--------------------------------------------------------------------------------
+2. READY-TO-USE SQL QUERY FOR SUPABASE SQL EDITOR
+--------------------------------------------------------------------------------
+Copy and paste this into Supabase SQL Editor -> New Query:
+
+-- Create Table (Run once if table is not created yet)
+CREATE TABLE IF NOT EXISTS ev_charging_stations (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    location TEXT NOT NULL,
+    lat DOUBLE PRECISION NOT NULL,
+    lng DOUBLE PRECISION NOT NULL,
+    corridor TEXT DEFAULT 'INDORE_UJJAIN',
+    power_output_kw NUMERIC DEFAULT 60.0,
+    total_ports INTEGER DEFAULT 4,
+    available_ports INTEGER DEFAULT 3,
+    status TEXT DEFAULT 'available',
+    tariff_per_kwh NUMERIC DEFAULT 18.50,
+    queue_estimate_mins INTEGER DEFAULT 0,
+    connector_types TEXT[] DEFAULT ARRAY['CCS2'],
+    amenities TEXT[] DEFAULT ARRAY['Restroom', 'Cafe', 'WiFi'],
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert New Station Example
+INSERT INTO ev_charging_stations (
+    id,
+    name,
+    location,
+    lat,
+    lng,
+    corridor,
+    power_output_kw,
+    total_ports,
+    available_ports,
+    status,
+    tariff_per_kwh,
+    queue_estimate_mins,
+    connector_types,
+    amenities
+) VALUES (
+    'st-indore-101',
+    'Tata Power Vijay Nagar MegaHub',
+    'AB Road, Scheme 54, Vijay Nagar, Indore, MP 452010',
+    22.753300,
+    75.893700,
+    'INDORE_UJJAIN',
+    120.0,
+    6,
+    5,
+    'available',
+    18.50,
+    0,
+    ARRAY['CCS2'],
+    ARRAY['Shopping Mall', 'Food Court', 'Clean Restrooms', 'Fast WiFi']
+);
+
+--------------------------------------------------------------------------------
+3. GPS COORDINATE CONVERSION FORMULA (DMS to Decimal)
+--------------------------------------------------------------------------------
+If you have coordinates in Degrees Minutes Seconds format (e.g. 24°04'38.9"N, 75°42'16.5"E):
+
+Formula: Decimal = Degrees + (Minutes / 60) + (Seconds / 3600)
+
+Example:
+Latitude:  24° 04' 38.9" N = 24 + (4 / 60) + (38.9 / 3600) = 24.077472
+Longitude: 75° 42' 16.5" E = 75 + (42 / 60) + (16.5 / 3600) = 75.704583
+
+================================================================================
